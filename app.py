@@ -1,11 +1,13 @@
 import pymysql.cursors
 
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
+
+    return render_template('index.html')  
 
     # Connect to the database
     connection = pymysql.connect(host='mrbartucz.com',
@@ -33,12 +35,27 @@ def index():
             for result in cursor:
                 print (result)
                 
-                
             
     finally:
-        connection.close()
-    
+        connection.close()  
     return result
+     
+
+
+
+
+
+@app.route('/homepage')
+def homepage():
+    return 'Homepage!'
+
+
+
+@app.route('/hello/<name>')
+def hello(name):
+    return render_template('page.html', name=name)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
